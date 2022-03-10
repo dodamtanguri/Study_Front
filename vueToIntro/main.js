@@ -2,23 +2,26 @@ var app = new Vue({
     el: '#app',
     data: {
         product: "Socks",
-        image: "assets/vmSocks-green-onWhite.jpeg",
+        brand: "Vue Mastery",
+        selectedVariant: 0,
         link: 'https://www.vuemastery.com/courses/intro-to-vue-js/attribute-binding',
         altText: 'A pair of socks',
         inventory: 0,
-        inStock: false,
+        // inStock: false,
         onSale: false,
         details: ["80% cotton", "20% polyester", "Gender-neutral"],
         variants:[
             {
                 variantId: 2234,
                 variantColor: "green",
-                variantImage: 'assets/vmSocks-green-onWhite.jpeg'
+                variantImage: 'assets/vmSocks-green-onWhite.jpeg',
+                variantQuantity: 10
             },
             {
                 variantId: 2235,
                 variantColor: "blue",
-                variantImage: 'assets/vmSocks-blue-onWhite.jpeg'
+                variantImage: 'assets/vmSocks-blue-onWhite.jpeg',
+                variantQuantity: 0
             }
         ],
         catImage: 'assets/dodam.jpeg',
@@ -43,8 +46,9 @@ var app = new Vue({
         addToCart() {
             this.cart += 1
         },
-        updateProduct(variantImage) {
-            this.image = variantImage
+        updateProduct(index) {
+           this.selectedVariant = index
+            console.log(index)
 
         },
         updateCat(catImage) {
@@ -52,6 +56,17 @@ var app = new Vue({
         },
         removeToCart() {
             if(this.cart != 0) this.cart -= 1
+        }
+    },
+    computed: {
+        title() {
+            return this.brand + ' ' + this.product
+        },
+        image(){
+            return this.variants[this.selectedVariant].variantImage
+        },
+        inStock() {
+            return this.variants[this.selectedVariant].variantQuantity
         }
     }
 })
