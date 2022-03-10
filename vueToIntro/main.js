@@ -4,11 +4,10 @@ var app = new Vue({
         product: "Socks",
         brand: "Vue Mastery",
         selectedVariant: 0,
+        onSale: true,
         link: 'https://www.vuemastery.com/courses/intro-to-vue-js/attribute-binding',
         altText: 'A pair of socks',
         inventory: 0,
-        // inStock: false,
-        onSale: false,
         details: ["80% cotton", "20% polyester", "Gender-neutral"],
         variants:[
             {
@@ -67,6 +66,11 @@ var app = new Vue({
         },
         inStock() {
             return this.variants[this.selectedVariant].variantQuantity
+        },
+        sale() {
+            if(this.onSale) {
+                return this.brand + ' ' + this.product + 'are on Sale! Now'
+            } return this.brand+ ' ' + this.product + 'are not on sale'
         }
     }
 })
