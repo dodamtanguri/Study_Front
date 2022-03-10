@@ -1,3 +1,18 @@
+Vue.component('product-details', {
+    props: {
+        details: {
+            type: Array,
+            required: true
+        }
+    },
+    template:
+        `   <ul>
+                <li v-for="detail in details">{{ detail }}</li>
+            </ul>`
+
+
+})
+
 Vue.component('product', {
     props: {
         premium: {
@@ -17,13 +32,12 @@ Vue.component('product', {
             <p>{{sale}}</p>
             
             <p>Shipping: {{ shipping }}</p>
+            <product-details :details = "details"></product-details>
 
             <p v-if="inStock">In Stock</p>
             <p v-else :class="{outOfStock: !inStock}">Out of Stock</p>
             <a v-bind:href="link" target="_blank" >More products like this</a>
-            <ul>
-                <li v-for="detail in details">{{ detail }}</li>
-            </ul>
+            
 
             <div v-for="(variant, index) in variants"
                  :key="variant.variantId"
@@ -125,7 +139,7 @@ Vue.component('product', {
             return this.brand + ' ' + this.product + 'are not on sale'
         },
         shipping() {
-            if(this.premium) {
+            if (this.premium) {
                 return "free"
             }
             return 2.99
