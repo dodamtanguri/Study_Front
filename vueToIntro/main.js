@@ -55,9 +55,7 @@ Vue.component('product', {
                     :disabled= "!inStock"
                     :class="{ disabledButton: !inStock }">Add to Cart</button>
             <button v-on:click="removeToCart">Remove to Cart</button>
-            <div class="cart">
-                <p>Cart({{cart}})</p>
-            </div>
+           
 
         </div>
 
@@ -83,7 +81,7 @@ Vue.component('product', {
                     variantId: 2235,
                     variantColor: "blue",
                     variantImage: 'assets/vmSocks-blue-onWhite.jpeg',
-                    variantQuantity: 0
+                    variantQuantity: 10
                 }
             ],
             catImage: 'assets/dodam.jpeg',
@@ -100,14 +98,13 @@ Vue.component('product', {
                     catGender: "F",
                     catImage: 'assets/mozzi.jpeg'
                 }
-            ],
-            cart: 0
+            ]
 
         }
     },
     methods: {
         addToCart() {
-            this.cart += 1
+            this.$emit('add-to-cart', this.variants[this.selectedVariant].variantId)
         },
         updateProduct(index) {
             this.selectedVariant = index
@@ -117,8 +114,10 @@ Vue.component('product', {
         updateCat(catImage) {
             this.catImage = catImage
         },
+
+
         removeToCart() {
-            if (this.cart != 0) this.cart -= 1
+            this.$emit('remove-to-cart', this.variants[this.selectedVariant].variantId)
         }
 
     },
@@ -151,6 +150,19 @@ Vue.component('product', {
 var app = new Vue({
     el: '#app',
     data: {
-        premium: false
+        premium: false,
+        cart: []
+    },
+    methods: {
+        updateCart(id) {
+            this.cart.push(id)
+        },
+        removeCart(id) {
+            for (var i = this.cart.length - 1; i >= 0; i--) {
+                if (this.cart[i] === id) {
+                    this.cart.splice(i, 1);
+                }
+            }
+        }
     }
 })
